@@ -108,30 +108,42 @@ class MainActivity : AppCompatActivity() {
             val myDB = FirebaseFirestore.getInstance()
             val play = myDB.collection("play")
 
-            // 1. size & list
-            play.get().addOnSuccessListener {
-                WriteLn( "${it.size()}")
-                it.forEach { item ->
-                    WriteLn( item.get("title") as String )
+            // 3. get list limited
+            fun step3(cnt : Int, lst : List<Any>) {
+                play.orderBy("title").limit(2).get().addOnSuccessListener {
+                    WriteLn("step 3 >> 검색된 갯수는 -> ${it.size()}")
+                    it.forEach { item ->
+                        WriteLn(item.get("title") as String)
+                    }
                 }
             }
 
             // 2. get list with where
-            play.whereEqualTo("title", "문서가 하나만 존재함")
-                .get().addOnSuccessListener {
-                    WriteLn( "${it.size()}")
-                    it.forEach { item ->
-                        WriteLn( item.get("title") as String )
-                    }
+            fun step2(cnt : Int, lst : List<Any>) {
+                play.whereEqualTo("title", "문서가 하나만 존재함")
+                        .get().addOnSuccessListener {
+                            WriteLn("step 2 >> 검색결과는 -> ${it.size()}")
+                            val p = lst.get(cnt) as (Int, List <Any>) -> Unit
+                            p(cnt + 1, lst)
+                        }
             }
 
-            // 3. get list limited
-            play.orderBy("title").limit(2).get().addOnSuccessListener {
-                WriteLn( "${it.size()}")
-                it.forEach { item ->
-                    WriteLn( item.get("title") as String )
+            // 1. size & list
+            fun step1(cnt : Int, lst : List<Any>) {
+                play.get().addOnSuccessListener {
+                    WriteLn("step 1 >> ${it.size()}")
+                    it.forEach { item ->
+                        WriteLn(item.get("title") as String)
+                    }
+
+                    val p = lst.get(cnt) as (Int, List <Any>) -> Unit
+                    p(cnt + 1, lst)
                 }
             }
+
+            // 비동기를 순서대로 동기처럼 실행하기
+            val p = listOf(::step2, ::step3)
+            step1(0, p)
 
         }
 
