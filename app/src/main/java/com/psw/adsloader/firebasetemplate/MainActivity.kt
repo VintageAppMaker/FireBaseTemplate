@@ -2,9 +2,7 @@ package com.psw.adsloader.firebasetemplate
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import android.widget.Toast
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
@@ -108,6 +106,11 @@ class MainActivity : AppCompatActivity() {
             val myDB = FirebaseFirestore.getInstance()
             val play = myDB.collection("play")
 
+            fun List<Any>?.nextAction(cnt : Int){
+                val p = this?.get(cnt) as (Int, List <Any>) -> Unit
+                p(cnt + 1, this)
+            }
+
             // 3. get list limited
             fun step3(cnt : Int, lst : List<Any>) {
                 play.orderBy("title").limit(2).get().addOnSuccessListener {
@@ -123,8 +126,8 @@ class MainActivity : AppCompatActivity() {
                 play.whereEqualTo("title", "문서가 하나만 존재함")
                         .get().addOnSuccessListener {
                             WriteLn("step 2 >> 검색결과는 -> ${it.size()}")
-                            val p = lst.get(cnt) as (Int, List <Any>) -> Unit
-                            p(cnt + 1, lst)
+
+                            lst.nextAction(cnt)
                         }
             }
 
@@ -136,14 +139,15 @@ class MainActivity : AppCompatActivity() {
                         WriteLn(item.get("title") as String)
                     }
 
-                    val p = lst.get(cnt) as (Int, List <Any>) -> Unit
-                    p(cnt + 1, lst)
+                    lst.nextAction(cnt)
                 }
             }
 
             // 비동기를 순서대로 동기처럼 실행하기
-            val p = listOf(::step2, ::step3)
-            step1(0, p)
+            listOf(::step1, ::step2, ::step3).let{
+                // 첫번째 인자가 시작함수
+                if(it.size > 1) it.get(0)(1, it)
+            }
 
         }
 
