@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#970202"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/txtLogin"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:alpha="0.5"
+            android:text="log in"
+            />
+
+        <Button
+            android:id="@+id/btnCreate"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:alpha="0.5"
+            android:text="create"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:weightSum="1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnSetData"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:alpha="0.5"
+            android:text="set Data"
+            />
+
+        <Button
+            android:id="@+id/btnGetData"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:alpha="0.5"
+            android:text="get Data"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnFireStoreSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fireStore 추가"
+        />
+
+    <Button
+        android:id="@+id/btnFireStoreGet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fireStore 가져오기"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_margin="12dp"
+                android:textSize="18sp"
+                android:text=""
+                android:textColor="#EFEFEF"
+                android:id="@+id/txtMessage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
