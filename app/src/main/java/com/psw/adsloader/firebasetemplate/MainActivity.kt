@@ -1,12 +1,23 @@
 package com.psw.adsloader.firebasetemplate
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.ByteArrayOutputStream
 import java.util.*
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.ColorMatrix
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         txtLogin.setOnClickListener {
-            AddUserInfo("snake2@caver.com", "123456mode6")
+            LoginUserInfo("snake2@caver.com", "123456mode6")
         }
 
         btnCreate.setOnClickListener {
@@ -102,9 +113,15 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        // Firestore의 비동기처리를 좀 편하게 ...
         val sm = StateMachine()
         btnFireStoreGet.setOnClickListener {
             sm.doStart()
+        }
+
+        btnUploadImage.setOnClickListener {
+            // FileStorage 저장하기
+            FileUpload()
         }
 
     }
@@ -174,7 +191,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 사용자인증
-    fun AddUserInfo(email : String, password : String){
+    fun LoginUserInfo(email : String, password : String){
 
         mAuth!!.signInWithEmailAndPassword (email, password)
                 .addOnCompleteListener(this) { task ->
@@ -201,6 +218,66 @@ class MainActivity : AppCompatActivity() {
                 }
     }
 
+    // file Upload
+    fun FileUpload(){
+
+        val storage = FirebaseStorage.getInstance()
+        var storageRef = storage.reference
+
+        var downUrl = ""
+
+        // 언제나 절대경로명으로 만들어야 한다.
+        var spaceRef = storageRef.child("images/space.jpg")
+
+        fun Upload(){
+            var uploading = spaceRef.putBytes(SaveImage())
+            uploading.addOnFailureListener {
+
+            }.addOnSuccessListener {
+                WriteLn("Uploaded ")
+
+                addImageWithLibrary(downUrl, { ctx, url, image ->
+                    // Glide로 추가
+                    Glide.with(ctx)
+                            .load(url)
+                            .fitCenter()
+                            .into(image)
+                })
+            }
+        }
+
+        // 올라간 주소를 가져온다.
+        spaceRef.downloadUrl.addOnSuccessListener {
+            WriteLn(it.toString())
+            downUrl = it.toString()
+            Upload()
+        }
+
+    }
+
+    // 함수형 프로그래밍 스타일
+    private fun addImageWithLibrary(
+            imgUrl: String, func: (Context, String, ImageView) -> Unit) {
+
+        // 넘겨진 함수를 수행
+        func(applicationContext, imgUrl, imgDownload)
+    }
+
+    // 2. TextClock 화면을 File로 저장하는 메소드 구현
+    fun SaveImage(): ByteArray {
+
+        clock.isDrawingCacheEnabled = true
+        clock.buildDrawingCache(true)
+
+        val b = Bitmap.createBitmap(clock.drawingCache)
+
+        clock.isDrawingCacheEnabled = false
+        clock.buildDrawingCache(false)
+
+        var bs = ByteArrayOutputStream()
+        b.compress(Bitmap.CompressFormat.PNG, 85, bs)
+        return bs.toByteArray()
+    }
 
     var nCount = 0
     fun Write(s : String ){

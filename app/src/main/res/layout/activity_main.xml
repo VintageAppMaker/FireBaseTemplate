@@ -2,85 +2,134 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lnBack"
     android:background="#970202"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="1"
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:weightSum="1"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/txtLogin"
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:alpha="0.5"
-            android:text="log in"
-            />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnCreate"
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
+            <Button
+                android:id="@+id/txtLogin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:alpha="0.5"
+                android:gravity="center"
+                android:text="log in" />
+
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:alpha="0.5"
+                android:gravity="center"
+                android:text="create" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:alpha="0.5"
-            android:text="create"
-            />
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/btnSetData"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:alpha="0.5"
+                android:gravity="center"
+                android:text="set Data" />
+
+            <Button
+                android:id="@+id/btnGetData"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:alpha="0.5"
+                android:gravity="center"
+                android:text="get Data" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnFireStoreSet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:alpha="0.5"
+                android:gravity="center"
+                android:text="fireStore 추가" />
+
+            <Button
+                android:id="@+id/btnFireStoreGet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:alpha="0.5"
+                android:gravity="center"
+                android:text="fireStore 가져오기" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnUploadImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:alpha="0.5"
+                android:gravity="center"
+                android:text="Upload &amp; Download Image " />
+
+
+        </LinearLayout>
+
+        <TextClock
+            android:id="@+id/clock"
+            android:textColor="#EEEEEE"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:format12Hour="hh:mm:ss a"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/imgDownload"
+            android:layout_gravity="center"
+            android:src="@drawable/common_google_signin_btn_text_dark"
+            android:scaleType="fitCenter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
-
-    <LinearLayout
-        android:weightSum="1"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btnSetData"
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:alpha="0.5"
-            android:text="set Data"
-            />
-
-        <Button
-            android:id="@+id/btnGetData"
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:alpha="0.5"
-            android:text="get Data"
-            />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btnFireStoreSet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="fireStore 추가"
-        />
-
-    <Button
-        android:id="@+id/btnFireStoreGet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="fireStore 가져오기"
-        />
 
     <ScrollView
+        android:layout_weight="0.5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,7 +137,6 @@
 
             <TextView
                 android:layout_margin="12dp"
-                android:textSize="18sp"
                 android:text=""
                 android:textColor="#EFEFEF"
                 android:id="@+id/txtMessage"
