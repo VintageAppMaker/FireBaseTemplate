@@ -114,8 +114,12 @@ class MainActivity : AppCompatActivity() {
         val myDB = FirebaseFirestore.getInstance()
         val play = myDB.collection("play")
 
+        // 순서대로 진행할 함수(메소드)테이블
+        val funcTable = listOf(::step1, ::step2, ::step3)
+        var nIndx     = 0
+
         // 3. get list limited
-        fun step3(cnt : Int, lst : List<Any>) {
+        fun step3() {
             play.orderBy("title").limit(2).get().addOnSuccessListener {
                 WriteLn("step 3 >> 검색된 갯수는 -> ${it.size()}")
                 it.forEach { item ->
@@ -125,40 +129,40 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 2. get list with where
-        fun step2(cnt : Int, lst : List<Any>) {
+        fun step2() {
             play.whereEqualTo("title", "문서가 하나만 존재함")
                     .get().addOnSuccessListener {
                         WriteLn("step 2 >> 검색결과는 -> ${it.size()}")
 
-                        lst.nextAction(cnt)
+                        nextAction()
                     }
         }
 
         // 1. size & list
-        fun step1(cnt : Int, lst : List<Any>) {
+        fun step1() {
             play.get().addOnSuccessListener {
                 WriteLn("step 1 >> ${it.size()}")
                 it.forEach { item ->
                     WriteLn(item.get("title") as String)
                 }
 
-                lst.nextAction(cnt)
+                nextAction()
             }
         }
 
 
         fun doStart(){
             // 비동기를 순서대로 동기처럼 실행하기
-            listOf(::step1, ::step2, ::step3).apply{
-                // 첫번째 인자가 시작함수
-                if(size > 1) get(0)(1, this)
-            }
+            nextAction()
         }
 
         // List의 확장함수
-        fun List<Any>?.nextAction(cnt : Int){
-            val p = this?.get(cnt) as (Int, List <Any>) -> Unit
-            p(cnt + 1, this)
+        fun nextAction(){
+            // 크기가 넘어가면 초기화
+            nIndx = if( nIndx > funcTable.size -1) 0 else nIndx
+            val p = funcTable.get(nIndx) as () -> Unit
+            p()
+            nIndx++
         }
 
     }
