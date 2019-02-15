@@ -1,5 +1,5 @@
 #### Firebase Quick Example
-> Firebase를
+> Firebase를 빠르게 적용하기 
 
 주의
 1. 되도록이면 Android Studio에서 제공하는 Tool보다는 Firebase 사이트에서 직접 수동으로 진행할 것. 버전 충돌이 종 일어남.
