@@ -2,7 +2,6 @@ package com.psw.adsloader.firebasetemplate
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -14,9 +13,6 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.ByteArrayOutputStream
 import java.util.*
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.ColorMatrix
-
 
 
 class MainActivity : AppCompatActivity() {
