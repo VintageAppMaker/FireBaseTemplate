@@ -5,6 +5,15 @@
 1. 되도록이면 Android Studio에서 제공하는 Tool보다는 Firebase 사이트에서 직접 수동으로 진행할 것
 2. 인터넷 예제들은 Firebase 모듈간 호환성도 고려해야 함. Gradle의 버전설정 민감함
 
+~~~
+
+    implementation 'com.google.firebase:firebase-auth:16.0.2'
+    implementation 'com.google.firebase:firebase-database:16.0.2'
+    implementation 'com.google.firebase:firebase-firestore:16.0.0'
+    implementation "com.google.firebase:firebase-storage:16.0.2"
+    
+~~~
+
 - Firebase auth
 - Firebase RealTime Database
 - Firebase FireStore
